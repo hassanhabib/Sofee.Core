@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/Sofee.Core/Sofee.Core.Api/appsettings.Development.json
