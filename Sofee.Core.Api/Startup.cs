@@ -54,7 +54,9 @@ namespace Sofee.Core.Api
             applicationBuilder.UseHttpsRedirection();
             applicationBuilder.UseRouting();
             applicationBuilder.UseAuthorization();
-            applicationBuilder.UseEndpoints(endpoints => endpoints.MapControllers());
+
+            applicationBuilder.UseEndpoints(endpoints =>
+                endpoints.MapControllers());
         }
     }
 }
