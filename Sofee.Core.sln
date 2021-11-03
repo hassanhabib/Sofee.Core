@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sofee.Core.Api", "Sofee.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sofee.Core.Api.Tests.Unit", "Sofee.Core.Api.Tests.Unit\Sofee.Core.Api.Tests.Unit.csproj", "{7D374451-BA8B-45F9-AE5D-FBCA7415F08B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sofee.Core.Api.Tests.Acceptance", "Sofee.Core.Api.Tests.Acceptance\Sofee.Core.Api.Tests.Acceptance.csproj", "{16721B09-8C45-4D75-8000-59E619440247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7D374451-BA8B-45F9-AE5D-FBCA7415F08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D374451-BA8B-45F9-AE5D-FBCA7415F08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D374451-BA8B-45F9-AE5D-FBCA7415F08B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16721B09-8C45-4D75-8000-59E619440247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16721B09-8C45-4D75-8000-59E619440247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16721B09-8C45-4D75-8000-59E619440247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16721B09-8C45-4D75-8000-59E619440247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
