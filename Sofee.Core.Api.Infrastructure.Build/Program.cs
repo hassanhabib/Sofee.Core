@@ -71,5 +71,5 @@ var githubPipeline = new GithubPipeline
 var client = new ADotNetClient();
 
 client.SerializeAndWriteToFile(
-    adoPipeline: githubPipeline, 
+    adoPipeline: githubPipeline,
     path: "../../../../.github/workflows/dotnet.yml");

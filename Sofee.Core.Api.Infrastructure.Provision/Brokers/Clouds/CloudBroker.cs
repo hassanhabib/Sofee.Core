@@ -4,8 +4,6 @@
 // -------------------------------------------------------
 
 using System;
-using System.Threading.Tasks;
-using Microsoft.Azure.Management.AppService.Fluent;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
@@ -18,6 +16,8 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Brokers.Clouds
         private readonly string clientId;
         private readonly string clientSecret;
         private readonly string tenantId;
+        private readonly string adminName;
+        private readonly string adminAccess;
         private readonly IAzure azure;
 
         public CloudBroker()
@@ -25,12 +25,14 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Brokers.Clouds
             this.clientId = Environment.GetEnvironmentVariable("AzureClientId");
             this.clientSecret = Environment.GetEnvironmentVariable("AzureClientSecret");
             this.tenantId = Environment.GetEnvironmentVariable("AzureTenantId");
+            this.adminName = Environment.GetEnvironmentVariable("AzureAdminName");
+            this.adminAccess = Environment.GetEnvironmentVariable("AzureAdminAccess");
             this.azure = AutneticateAzure();
         }
 
         private IAzure AutneticateAzure()
         {
-            AzureCredentials credentials = 
+            AzureCredentials credentials =
                 SdkContext.AzureCredentialsFactory.FromServicePrincipal(
                     clientId: this.clientId,
                     clientSecret: this.clientSecret,

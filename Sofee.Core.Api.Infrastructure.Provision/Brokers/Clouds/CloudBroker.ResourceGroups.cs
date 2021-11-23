@@ -3,7 +3,6 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
-using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
