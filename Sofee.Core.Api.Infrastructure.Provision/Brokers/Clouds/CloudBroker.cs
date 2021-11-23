@@ -4,6 +4,7 @@
 // -------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.Azure.Management.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
@@ -11,7 +12,7 @@ using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
 
 namespace Sofee.Core.Api.Infrastructure.Provision.Brokers.Clouds
 {
-    public partial class CloudBroker
+    public partial class CloudBroker : ICloudBroker
     {
         private readonly string clientId;
         private readonly string clientSecret;
