@@ -1,0 +1,13 @@
+{
+  "projectName": "Sofee-Core-Api",
+  "up": {
+    "environments": [
+      "DEV"
+    ]
+  },
+  "down": {
+    "environments": [
+
+    ]
+  }
+}
