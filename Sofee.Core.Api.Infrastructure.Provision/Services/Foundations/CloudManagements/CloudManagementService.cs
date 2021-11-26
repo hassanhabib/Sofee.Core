@@ -3,11 +3,8 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure.Management.AppService.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Sofee.Core.Api.Infrastructure.Provision.Brokers.Clouds;
 using Sofee.Core.Api.Infrastructure.Provision.Brokers.Loggings;
@@ -41,6 +38,22 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudMana
             this.loggingBroker.LogActivity(message: $"{resourceGroupName} Provisioned.");
 
             return resourceGroup;
+        }
+
+        public async ValueTask<IAppServicePlan> ProvisionPlanAsync(
+            string projectName,
+            string environment,
+            IResourceGroup resourceGroup)
+        {
+            string planName = $"{projectName}-PLAN-{environment}".ToUpper();
+            this.loggingBroker.LogActivity(message: $"Provisioning {planName}...");
+
+            IAppServicePlan plan =
+                await this.cloudBroker.CreatePlanAsync(planName, resourceGroup);
+
+            this.loggingBroker.LogActivity(message: $"{plan} Provisioned");
+
+            return plan;
         }
     }
 }
