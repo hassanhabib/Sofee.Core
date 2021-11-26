@@ -3,10 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure.Management.AppService.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
@@ -37,6 +34,10 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Processings.CloudMana
             await ProvisionAsync(
                 projectName: cloudManagementConfiguration.ProjectName,
                 cloudAction: cloudManagementConfiguration.Up);
+
+            await DeprovisionAsync(
+                projectName: cloudManagementConfiguration.ProjectName,
+                cloudAction: cloudManagementConfiguration.Down);
         }
 
         private async ValueTask ProvisionAsync(
@@ -45,7 +46,7 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Processings.CloudMana
         {
             List<string> environments = RetrieveEnvironments(cloudAction);
 
-            foreach(string environmentName in environments)
+            foreach (string environmentName in environments)
             {
                 IResourceGroup resourceGroup = await this.cloudManagementService
                     .ProvisionResourceGroupAsync(
@@ -77,6 +78,20 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Processings.CloudMana
                         sqlDatabase.ConnectionString,
                         resourceGroup,
                         appServicePlan);
+            }
+        }
+
+        private async ValueTask DeprovisionAsync(
+            string projectName,
+            CloudAction cloudAction)
+        {
+            List<string> environments = RetrieveEnvironments(cloudAction);
+
+            foreach (string environmentName in environments)
+            {
+                await this.cloudManagementService.DeprovisionResouceGroupAsync(
+                    projectName,
+                    environmentName);
             }
         }
 
