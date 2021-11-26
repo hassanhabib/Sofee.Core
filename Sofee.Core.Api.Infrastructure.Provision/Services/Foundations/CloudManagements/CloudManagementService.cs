@@ -6,6 +6,7 @@
 using System.Threading.Tasks;
 using Microsoft.Azure.Management.AppService.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
+using Microsoft.Azure.Management.Sql.Fluent;
 using Sofee.Core.Api.Infrastructure.Provision.Brokers.Clouds;
 using Sofee.Core.Api.Infrastructure.Provision.Brokers.Loggings;
 
@@ -54,6 +55,24 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudMana
             this.loggingBroker.LogActivity(message: $"{plan} Provisioned");
 
             return plan;
+        }
+
+        public async ValueTask<ISqlServer> ProvisionSqlServerAsync(
+            string projectName,
+            string environment,
+            IResourceGroup resourceGroup)
+        {
+            string sqlServerName = $"{projectName}-dbserver-{environment}".ToLower();
+            this.loggingBroker.LogActivity(message: $"Provisioning {sqlServerName}...");
+
+            ISqlServer sqlServer =
+                await this.cloudBroker.CreateSqlServerAsync(
+                    sqlServerName,
+                    resourceGroup);
+
+            this.loggingBroker.LogActivity(message: $"{sqlServer} Provisioned");
+
+            return sqlServer;
         }
     }
 }
