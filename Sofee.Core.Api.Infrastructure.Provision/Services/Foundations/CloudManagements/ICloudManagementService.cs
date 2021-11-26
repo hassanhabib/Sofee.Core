@@ -31,5 +31,12 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudMana
             string projectname,
             string environment,
             ISqlServer sqlServer);
+
+        ValueTask<IWebApp> ProvisionWebAppAsync(
+            string projectName,
+            string environment,
+            string databaseConnectionString,
+            IResourceGroup resourceGroup,
+            IAppServicePlan appServicePlan);
     }
 }
