@@ -38,5 +38,9 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudMana
             string databaseConnectionString,
             IResourceGroup resourceGroup,
             IAppServicePlan appServicePlan);
+
+        ValueTask DeprovisionResouceGroupAsync(
+            string projectName,
+            string environment);
     }
 }

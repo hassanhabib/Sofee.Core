@@ -18,9 +18,7 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudMana
         private readonly ICloudBroker cloudBroker;
         private readonly ILoggingBroker loggingBroker;
 
-        public CloudManagementService(
-            ICloudBroker cloudBroker,
-            ILoggingBroker loggingBroker)
+        public CloudManagementService()
         {
             this.cloudBroker = new CloudBroker();
             this.loggingBroker = new LoggingBroker();
@@ -118,6 +116,27 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudMana
             this.loggingBroker.LogActivity(message: $"{webAppName} Provisioned");
 
             return webApp;
+        }
+
+        public async ValueTask DeprovisionResouceGroupAsync(string projectName, string environment)
+        {
+            string resourceGroupName = $"{projectName}-RESOURCES-{environment}".ToUpper();
+
+            bool isResourceGroupExist =
+                await this.cloudBroker.CheckResourceGroupExistAsync(
+                    resourceGroupName);
+
+            if (isResourceGroupExist)
+            {
+                this.loggingBroker.LogActivity(message: $"Deprovisioning {resourceGroupName}...");
+                await this.cloudBroker.DeleteResourceGroupAsync(resourceGroupName);
+                this.loggingBroker.LogActivity(message: $"{resourceGroupName} Deprovisioned");
+            }
+            else
+            {
+                this.loggingBroker.LogActivity(
+                    message: $"Resource group {resourceGroupName} doesn't exist. No action taken.");
+            }
         }
 
         private string GenerateConnectionString(ISqlDatabase sqlDatabase)
