@@ -3,15 +3,19 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
-using System;
+using System.Threading.Tasks;
+using Sofee.Core.Api.Infrastructure.Provision.Services.Processings.CloudManagements;
 
 namespace Sofee.Core.Api.Infrastructure.Provision
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ICloudManagementProcessingService cloudManagementProcessingService =
+                new CloudManagementProcessingService();
+
+            await cloudManagementProcessingService.ProcessAsync();
         }
     }
 }
