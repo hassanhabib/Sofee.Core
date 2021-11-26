@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Management.AppService.Fluent;
 using Microsoft.Azure.Management.ResourceManager.Fluent;
 using Microsoft.Azure.Management.Sql.Fluent;
+using Sofee.Core.Api.Infrastructure.Provision.Models.Storages;
 
 namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudManagements
 {
@@ -25,5 +26,10 @@ namespace Sofee.Core.Api.Infrastructure.Provision.Services.Foundations.CloudMana
             string projectName,
             string environment,
             IResourceGroup resourceGroup);
+
+        ValueTask<SqlDatabase> ProvisionSqlDatabaseAsync(
+            string projectname,
+            string environment,
+            ISqlServer sqlServer);
     }
 }
