@@ -1,4 +1,9 @@
-﻿using System;
+﻿// -------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE FOR THE WORLD
+// -------------------------------------------------------
+
+using System;
 
 namespace Sofee.Core.Api.Models.Languages
 {
@@ -9,5 +14,7 @@ namespace Sofee.Core.Api.Models.Languages
         public string Text { get; set; }
         public DateTimeOffset CreatedDate { get; set; }
         public DateTimeOffset UpdatedDate { get; set; }
+        public Guid CreatedBy { get; set; }
+        public Guid UpdatedBy { get; set; }
     }
 }
