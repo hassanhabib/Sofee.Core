@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -24,6 +25,14 @@ namespace Sofee.Core.Api.Brokers.Storages
             await broker.SaveChangesAsync();
 
             return languageEntityEntry.Entity; 
+        }
+
+        public IQueryable<Language> SelectAllLanguages()
+        {
+            using var broker =  
+                new StorageBroker(this.configuration);
+
+            return broker.Languages;
         }
     }
 }
