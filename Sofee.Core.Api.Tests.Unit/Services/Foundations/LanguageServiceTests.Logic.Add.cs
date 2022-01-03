@@ -4,6 +4,7 @@
 // -------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Force.DeepCloner;
 using Moq;
@@ -15,7 +16,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
     public partial class LanguageServiceTests
     {
         [Fact]
-        public async void ShouldAddLanguageAsync()
+        public async Task ShouldAddLanguageAsync()
         {
                 //given 
                 DateTimeOffset dateTime = GetRandomDateTime();
@@ -37,7 +38,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 
                 this.storageBrokerMock.Verify(broker => 
                     broker.InsertLanguageAsync(inputLanguage),
-                        Times.Once());
+                        Times.Once);
 
                 this.storageBrokerMock.VerifyNoOtherCalls();
         }
