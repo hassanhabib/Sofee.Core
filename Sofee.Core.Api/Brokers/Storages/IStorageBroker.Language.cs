@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +15,8 @@ namespace Sofee.Core.Api.Brokers.Storages
     {
         ValueTask<Language> InsertLanguageAsync(Language language);
         IQueryable<Language> SelectAllLanguages();
+        ValueTask<Language> SelectLanguageByIdAsync(Guid languageId);
         ValueTask<Language> UpdateLanguageAsync(Language language);
+        ValueTask<Language> DeleteLanguageAsync(Language language);
     }
 }
