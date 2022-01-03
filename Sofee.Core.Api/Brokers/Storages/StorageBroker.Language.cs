@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ namespace Sofee.Core.Api.Brokers.Storages
 
             await broker.SaveChangesAsync();
 
-            return languageEntityEntry.Entity; 
+            return languageEntityEntry.Entity;
         }
 
         public IQueryable<Language> SelectAllLanguages()
@@ -33,6 +34,27 @@ namespace Sofee.Core.Api.Brokers.Storages
                 new StorageBroker(this.configuration);
 
             return broker.Languages;
+        }
+
+        public async ValueTask<Language> SelectLanguageByIdAsync(Guid languageId)
+        {
+            using var broker = 
+                   new StorageBroker(this.configuration);
+
+            return await broker.Languages.FindAsync(languageId);
+        }
+
+        public async ValueTask<Language> DeleteLanguageAsync(Language language)
+        {
+            using var broker = 
+                new StorageBroker(this.configuration);
+
+            EntityEntry<Language> languageEntityEntry = 
+                broker.Languages.Remove(language);
+
+            await broker.SaveChangesAsync();
+
+            return languageEntityEntry.Entity;
         }
     }
 }
