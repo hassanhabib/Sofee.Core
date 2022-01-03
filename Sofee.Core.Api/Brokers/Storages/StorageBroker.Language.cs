@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Hosting;
 using Sofee.Core.Api.Models.Languages;
 
 namespace Sofee.Core.Api.Brokers.Storages
@@ -33,6 +34,19 @@ namespace Sofee.Core.Api.Brokers.Storages
                 new StorageBroker(this.configuration);
 
             return broker.Languages;
+        }
+
+        public async ValueTask<Language> UpdateLanguageAsync(Language language)
+        {
+            using var broker =
+                new StorageBroker(this.configuration);
+
+            EntityEntry<Language> languageEntityEntry =
+                broker.Languages.Update(language);
+
+            await broker.SaveChangesAsync();
+
+            return languageEntityEntry.Entity;
         }
     }
 }
