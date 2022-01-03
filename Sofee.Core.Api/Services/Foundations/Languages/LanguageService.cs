@@ -18,9 +18,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             this.storageBroker = storageBroker;
         }
 
-        public ValueTask<Language> AddLanguageAsync(Language language)
-        {
-            throw new System.NotImplementedException();
-        }
+        public async ValueTask<Language> AddLanguageAsync(Language language) =>
+            await this.storageBroker.InsertLanguageAsync(language);
     }
 }
