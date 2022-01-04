@@ -9,7 +9,7 @@ using Sofee.Core.Api.Models.Languages;
 
 namespace Sofee.Core.Api.Services.Foundations.Languages
 {
-    public class LanguageService : ILanguageService
+    public partial class LanguageService : ILanguageService
     {
         private readonly IStorageBroker storageBroker;
 
@@ -18,7 +18,11 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             this.storageBroker = storageBroker;
         }
 
-        public async ValueTask<Language> AddLanguageAsync(Language language) =>
-            await this.storageBroker.InsertLanguageAsync(language);
+        public ValueTask<Language> AddLanguageAsync(Language language) =>
+       TryCatch(async () =>
+       {
+           ValidateLanguageIsNotNull(language);
+           return await this.storageBroker.InsertLanguageAsync(language);
+       });
     }
 }
