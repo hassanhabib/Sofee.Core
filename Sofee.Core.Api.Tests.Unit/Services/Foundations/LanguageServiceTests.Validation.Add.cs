@@ -17,7 +17,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
     public partial class LanguageServiceTests
     {
         [Fact]
-        public async Task ShouldThrowValidationExceptionOnAddIfLanguageIsNull()
+        public async Task ShouldThrowValidationExceptionOnAddIfLanguageIsNullAsync()
         {
             //given 
             Language nullLanguage = null;
