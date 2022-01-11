@@ -12,8 +12,6 @@ namespace Sofee.Core.Api.Models.Languages.Exceptions
         public LanguageValidationException(Xeption innerException)
             : base(message: "Language validation error occured. Please, try again.", 
                        innerException: innerException)
-        {
-
-        }
+        { }
     }
 }

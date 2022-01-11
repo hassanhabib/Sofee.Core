@@ -3,7 +3,6 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
-
 using Xeptions;
 
 namespace Sofee.Core.Api.Models.Languages.Exceptions
@@ -12,8 +11,6 @@ namespace Sofee.Core.Api.Models.Languages.Exceptions
     {
         public NullLanguageException()
             : base(message: "Language is null.")
-        {
-
-        }
+        { }
     }
 }
