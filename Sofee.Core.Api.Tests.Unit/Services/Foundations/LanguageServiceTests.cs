@@ -24,7 +24,6 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 storageBroker: this.storageBrokerMock.Object);
         }
 
-
         private static Language CreateRandomLanguage() =>
                 CreateLanguageFiller().Create();
 
