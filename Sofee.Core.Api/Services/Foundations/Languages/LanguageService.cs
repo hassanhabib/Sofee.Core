@@ -21,7 +21,8 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         public ValueTask<Language> AddLanguageAsync(Language language) =>
         TryCatch(async () =>
         {
-            ValidateLanguageIsNotNull(language);
+            ValidateLanguageOnAdd(language);
+
             return await this.storageBroker.InsertLanguageAsync(language);
         });
     }
