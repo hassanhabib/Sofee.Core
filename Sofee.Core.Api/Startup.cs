@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Sofee.Core.Api.Brokers.Loggings;
 using Sofee.Core.Api.Brokers.Storages;
 
 namespace Sofee.Core.Api
@@ -24,7 +25,7 @@ namespace Sofee.Core.Api
         {
             services.AddControllers();
             services.AddDbContext<StorageBroker>();
-            services.AddTransient<IStorageBroker, StorageBroker>();
+            AddBrokers(services);
 
             services.AddSwaggerGen(options =>
             {
@@ -60,6 +61,12 @@ namespace Sofee.Core.Api
 
             applicationBuilder.UseEndpoints(endpoints =>
                 endpoints.MapControllers());
+        }
+
+        private static void AddBrokers(IServiceCollection services)
+        {
+            services.AddTransient<IStorageBroker, StorageBroker>();
+            services.AddTransient<ILoggingBroker, LoggingBroker>();
         }
     }
 }
