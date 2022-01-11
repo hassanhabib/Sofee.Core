@@ -18,29 +18,30 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
         [Fact]
         public async Task ShouldAddLanguageAsync()
         {
-                //given 
-                DateTimeOffset dateTime = GetRandomDateTime();
-                Language randomLanguage = CreateRandomLanguage();
-                Language inputLanguage = randomLanguage;
-                Language storageLanguage = inputLanguage;
-                Language expectedLanguage = storageLanguage.DeepClone();
+            //given 
+            DateTimeOffset dateTime = GetRandomDateTime();
+            Language randomLanguage = CreateRandomLanguage();
+            Language inputLanguage = randomLanguage;
+            Language storageLanguage = inputLanguage;
+            Language expectedLanguage = storageLanguage.DeepClone();
 
-                this.storageBrokerMock.Setup(broker =>
-                    broker.InsertLanguageAsync(inputLanguage))
-                        .ReturnsAsync(storageLanguage);
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertLanguageAsync(inputLanguage))
+                    .ReturnsAsync(storageLanguage);
 
-                //when
-                Language actualLanguage = 
-                    await this.languageService.AddLanguageAsync(inputLanguage);
+            //when
+            Language actualLanguage =
+                await this.languageService.AddLanguageAsync(inputLanguage);
 
-                //then
-                actualLanguage.Should().BeEquivalentTo(expectedLanguage);
+            //then
+            actualLanguage.Should().BeEquivalentTo(expectedLanguage);
 
-                this.storageBrokerMock.Verify(broker => 
-                    broker.InsertLanguageAsync(inputLanguage),
-                        Times.Once);
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertLanguageAsync(inputLanguage),
+                    Times.Once);
 
-                this.storageBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
