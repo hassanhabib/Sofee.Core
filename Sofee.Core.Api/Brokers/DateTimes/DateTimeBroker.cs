@@ -5,7 +5,7 @@
 
 using System;
 
-namespace Taarafo.Core.Brokers.DateTimes
+namespace Sofee.Core.Api.Brokers.DateTimes
 {
     public class DateTimeBroker : IDateTimeBroker
     {
