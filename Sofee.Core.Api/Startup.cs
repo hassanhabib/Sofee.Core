@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Sofee.Core.Api.Brokers.Loggings;
 using Sofee.Core.Api.Brokers.Storages;
+using Taarafo.Core.Brokers.DateTimes;
 
 namespace Sofee.Core.Api
 {
@@ -67,6 +68,7 @@ namespace Sofee.Core.Api
         {
             services.AddTransient<IStorageBroker, StorageBroker>();
             services.AddTransient<ILoggingBroker, LoggingBroker>();
+            services.AddTransient<IDateTimeBroker, DateTimeBroker>();
         }
     }
 }
