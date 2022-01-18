@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sofee.Core.Api.Tests.Accept
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sofee.Core.Api.Infrastructure.Build", "Sofee.Core.Api.Infrastructure.Build\Sofee.Core.Api.Infrastructure.Build.csproj", "{121872E2-C76A-49C1-9E49-E9C17B44E434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sofee.Core.Api.Infrastructure.Provision", "Sofee.Core.Api.Infrastructure.Provision\Sofee.Core.Api.Infrastructure.Provision.csproj", "{2226A631-89FF-4832-B5EC-BFE8C329577B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sofee.Core.Api.Infrastructure.Provision", "Sofee.Core.Api.Infrastructure.Provision\Sofee.Core.Api.Infrastructure.Provision.csproj", "{2226A631-89FF-4832-B5EC-BFE8C329577B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
