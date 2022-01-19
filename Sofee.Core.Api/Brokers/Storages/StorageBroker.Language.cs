@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Hosting;
 using Sofee.Core.Api.Models.Languages;
 
 namespace Sofee.Core.Api.Brokers.Storages
@@ -31,7 +30,7 @@ namespace Sofee.Core.Api.Brokers.Storages
 
         public IQueryable<Language> SelectAllLanguages()
         {
-            using var broker =  
+            using var broker =
                 new StorageBroker(this.configuration);
 
             return broker.Languages;
@@ -39,7 +38,7 @@ namespace Sofee.Core.Api.Brokers.Storages
 
         public async ValueTask<Language> SelectLanguageByIdAsync(Guid languageId)
         {
-            using var broker = 
+            using var broker =
                    new StorageBroker(this.configuration);
 
             return await broker.Languages.FindAsync(languageId);
@@ -60,15 +59,15 @@ namespace Sofee.Core.Api.Brokers.Storages
 
         public async ValueTask<Language> DeleteLanguageAsync(Language language)
         {
-            using var broker = 
+            using var broker =
                 new StorageBroker(this.configuration);
 
-            EntityEntry<Language> languageEntityEntry = 
+            EntityEntry<Language> languageEntityEntry =
                 broker.Languages.Remove(language);
 
             await broker.SaveChangesAsync();
 
             return languageEntityEntry.Entity;
-        } 
+        }
     }
 }
