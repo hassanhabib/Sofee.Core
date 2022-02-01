@@ -3,7 +3,6 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
-using System;
 using System.Threading.Tasks;
 using Sofee.Core.Api.Brokers.Loggings;
 using Sofee.Core.Api.Brokers.Storages;
@@ -24,9 +23,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Language> AddLanguageAsync(Language language)
-        {
-            throw new NotImplementedException();
-        }
+        public async ValueTask<Language> AddLanguageAsync(Language language) =>
+            await this.storageBroker.InsertLanguageAsync(language);
     }
 }
