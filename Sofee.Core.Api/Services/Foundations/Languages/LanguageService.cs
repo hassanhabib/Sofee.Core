@@ -23,7 +23,12 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Language> AddLanguageAsync(Language language) =>
-            await this.storageBroker.InsertLanguageAsync(language);
+        public ValueTask<Language> AddLanguageAsync(Language language) =>
+        TryCatch(async () =>
+        {
+            ValidateLanguageOnAdd(language);
+
+            return await this.storageBroker.InsertLanguageAsync(language);
+        });
     }
 }

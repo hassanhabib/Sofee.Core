@@ -38,7 +38,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                        Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
-                broker.LogCritical(It.Is(SameExceptionAs(
+                broker.LogError(It.Is(SameExceptionAs(
                     expectedLanguageValidationException))),
                         Times.Once);
 
