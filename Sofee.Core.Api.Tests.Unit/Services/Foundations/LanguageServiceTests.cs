@@ -4,12 +4,14 @@
 // -------------------------------------------------------
 
 using System;
+using System.Linq.Expressions;
 using Moq;
 using Sofee.Core.Api.Brokers.Loggings;
 using Sofee.Core.Api.Brokers.Storages;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Services.Foundations.Languages;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 {
@@ -48,5 +50,13 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 
         private static DateTimeOffset GetRandomDateTime() =>
             new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+                actualException.Message == expectedException.Message
+                && actualException.InnerException.Message == expectedException.InnerException.Message
+                && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+        }
     }
 }
