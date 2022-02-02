@@ -34,6 +34,17 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
         private static Language CreateRandomLanguage() =>
                 CreateLanguageFiller().Create();
 
+        private static DateTimeOffset GetRandomDateTime() =>
+            new DateTimeRange(earliestDate: new DateTime()).GetValue();
+
+        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+                actualException.Message == expectedException.Message
+                && actualException.InnerException.Message == expectedException.InnerException.Message
+                && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
+        }
+
         private static Filler<Language> CreateLanguageFiller()
         {
             var filler = new Filler<Language>();
@@ -46,17 +57,6 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 .OnProperty(language => language.UpdatedBy).IgnoreIt();
 
             return filler;
-        }
-
-        private static DateTimeOffset GetRandomDateTime() =>
-            new DateTimeRange(earliestDate: new DateTime()).GetValue();
-
-        private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
-        {
-            return actualException =>
-                actualException.Message == expectedException.Message
-                && actualException.InnerException.Message == expectedException.InnerException.Message
-                && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
     }
 }

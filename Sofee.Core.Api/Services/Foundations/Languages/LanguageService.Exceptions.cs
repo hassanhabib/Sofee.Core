@@ -29,8 +29,8 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         private Xeption CreateAndLogValidationException(
             NullLanguageException nullLanguageException)
         {
-            var languageValidationException =
-             new LanguageValidationException(nullLanguageException);
+            var languageValidationException = 
+                new LanguageValidationException(nullLanguageException);
 
             this.loggingBroker.LogError(languageValidationException);
 

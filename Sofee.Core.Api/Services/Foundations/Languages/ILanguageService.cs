@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Sofee.Core.Api.Services.Foundations.Languages
 {
     public interface ILanguageService
-{
+    {
         ValueTask<Language> AddLanguageAsync(Language language);
     }
 }

@@ -19,7 +19,6 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
         public async Task ShouldAddLanguageAsync()
         {
             //given 
-            DateTimeOffset dateTime = GetRandomDateTime();
             Language randomLanguage = CreateRandomLanguage();
             Language inputLanguage = randomLanguage;
             Language storageLanguage = inputLanguage;
@@ -40,8 +39,8 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 broker.InsertLanguageAsync(inputLanguage),
                     Times.Once);
 
-            this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
