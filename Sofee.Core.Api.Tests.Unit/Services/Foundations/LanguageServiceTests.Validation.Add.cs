@@ -3,7 +3,9 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
 using Moq;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
@@ -110,6 +112,52 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             this.storageBrokerMock.Verify(broker =>
                 broker.InsertLanguageAsync(It.IsAny<Language>()),
                     Times.Never);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowValidationExceptionOnAddIfCreateAndUpdateDatesIsNotSameAndLogItAsync()
+        {
+            // given
+            int randomNumber = GetRandomNumber();
+            DateTimeOffset randomDateTime = GetRandomDateTime();
+
+            Language radomLanguage = 
+                CreateRandomLanguage(randomDateTime);
+
+            Language invalidLanguage = radomLanguage;
+
+            invalidLanguage.UpdatedDate = 
+                invalidLanguage.CreatedDate.AddDays(randomNumber);
+
+            var invalidLanguageException =
+                new InvalidLanguageException();
+
+            invalidLanguageException.AddData(
+                key: nameof(Language.UpdatedDate),
+                values: $"Date is not the same as {nameof(Language.CreatedDate)}");
+
+            var expectedLanguageValidationException =
+                new LanguageValidationException(invalidLanguageException);
+
+            // when
+            ValueTask<Language> addLanguageTask =
+                this.languageService.AddLanguageAsync(invalidLanguage);
+
+            // then
+            await Assert.ThrowsAsync<LanguageValidationException>(() =>
+                addLanguageTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedLanguageValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+               broker.InsertLanguageAsync(It.IsAny<Language>()),
+                   Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
