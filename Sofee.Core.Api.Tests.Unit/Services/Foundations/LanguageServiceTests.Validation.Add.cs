@@ -17,7 +17,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
         public async Task ShouldThrowValidationExceptionOnAddIfLanguageIsNullAndLogItAsync()
         {
             //given 
-            Language nullLanguage = null;
+            Language invalidLanguage = null;
 
             var nullLanguageException =
                     new NullLanguageException();
@@ -27,14 +27,14 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 
             //when
             ValueTask<Language> addLanguageTask =
-                 this.languageService.AddLanguageAsync(nullLanguage);
+                 this.languageService.AddLanguageAsync(invalidLanguage);
 
             //then
             await Assert.ThrowsAsync<LanguageValidationException>(() =>
                 addLanguageTask.AsTask());
 
             this.storageBrokerMock.Verify(broker =>
-                   broker.InsertLanguageAsync(nullLanguage),
+                   broker.InsertLanguageAsync(invalidLanguage),
                        Times.Never);
 
             this.loggingBrokerMock.Verify(broker =>
