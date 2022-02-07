@@ -24,6 +24,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
                 (Rule: IsInvalid(language.CreatedBy), Parameter: nameof(Language.CreatedBy)),
                 (Rule: IsInvalid(language.UpdatedDate), Parameter: nameof(Language.UpdatedDate)),
                 (Rule: IsInvalid(language.UpdatedBy), Parameter: nameof(Language.UpdatedBy)),
+                (Rule: IsNotRecent(language.CreatedDate), Parameter: nameof(Language.CreatedDate)),
 
                 (Rule: IsNotSame(
                     firstDate: language.UpdatedDate,
@@ -66,6 +67,23 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
                 Condition = firstDate != secondDate,
                 Message = $"Date is not the same as {secondDateName}"
             };
+
+        private dynamic IsNotRecent(DateTimeOffset date) => new
+        {
+            Condition = IsDateNotRecent(date),
+            Message = "Date is not recent"
+        };
+
+        private bool IsDateNotRecent(DateTimeOffset date)
+        {
+            DateTimeOffset currentDateTime =
+                this.dateTimeBroker.GetCurrentDateTimeOffset();
+
+            TimeSpan timeDifference = currentDateTime.Subtract(date);
+            TimeSpan oneMinute = TimeSpan.FromMinutes(1);
+
+            return timeDifference.Duration() > oneMinute;
+        }
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {

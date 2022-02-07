@@ -176,7 +176,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 randomDateTime.AddMinutes(minutesBeforeOrAfter);
 
             Language randomLanguage = 
-                CreateRandomLanguage(randomDateTime);
+                CreateRandomLanguage(invalidDateTime);
 
             Language invalidLanguage = randomLanguage;
             
@@ -192,7 +192,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
-                    .Returns(invalidDateTime);
+                    .Returns(randomDateTime);
 
             // when
             ValueTask<Language> addLanguageTask =
