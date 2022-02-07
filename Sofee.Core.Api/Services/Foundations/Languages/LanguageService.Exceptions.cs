@@ -33,6 +33,10 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
                 throw CreateAndLogCriticalDependencyException(failedLanguageStorageException);
             }
+            catch (InvalidLanguageException invalidLanguageException)
+            {
+                throw CreateAndLogValidationException(invalidLanguageException);
+            }
         }
 
         private LanguageDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
@@ -46,10 +50,10 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         }
 
         private Xeption CreateAndLogValidationException(
-            NullLanguageException nullLanguageException)
+            Xeption exception)
         {
             var languageValidationException = 
-                new LanguageValidationException(nullLanguageException);
+                new LanguageValidationException(exception);
 
             this.loggingBroker.LogError(languageValidationException);
 
