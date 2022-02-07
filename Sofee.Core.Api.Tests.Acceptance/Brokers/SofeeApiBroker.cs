@@ -15,8 +15,8 @@ namespace Sofee.Core.Api.Tests.Acceptance.Brokers
 
         public SofeeApiBroker()
         {
-            WebApplicationFactory<Startup> webApplicationFactory = new WebApplicationFactory<Startup>();
-            HttpClient httpClient = webApplicationFactory.CreateClient();
+            var webApplicationFactory = new WebApplicationFactory<Startup>();
+            var httpClient = webApplicationFactory.CreateClient();
             this.apiFactoryClient = new RESTFulApiFactoryClient(httpClient);
         }
     }
