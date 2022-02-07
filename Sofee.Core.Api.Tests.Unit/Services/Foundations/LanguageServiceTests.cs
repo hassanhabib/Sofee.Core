@@ -15,6 +15,7 @@ using Sofee.Core.Api.Services.Foundations.Languages;
 using Tynamix.ObjectFiller;
 using Xeptions;
 using Sofee.Core.Api.Brokers.DateTimes;
+using Xunit;
 
 namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 {
@@ -37,6 +38,18 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
+        public static TheoryData MinutesBeforeOrAfter()
+        {
+            int randomNumber = GetRandomNumber();
+            int randomNegativeNumber = GetRandomNegativeNumber();
+
+            return new TheoryData<int>
+            {
+                randomNumber,
+                randomNegativeNumber
+            };
+        }
+
         private static Language CreateRandomLanguage(DateTimeOffset dates) =>
                 CreateLanguageFiller(dates: dates).Create();
 
@@ -48,6 +61,9 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
+
+        private static int GetRandomNegativeNumber() =>
+            -1 * new IntRange(min: 2, max: 10).GetValue();
 
         private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
         {
