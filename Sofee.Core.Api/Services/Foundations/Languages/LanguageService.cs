@@ -28,7 +28,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         }
 
         public ValueTask<Language> AddLanguageAsync(Language language) =>
-        TryCatch(async () =>
+            TryCatch(async () =>
         {
             ValidateLanguageOnAdd(language);
 

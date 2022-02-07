@@ -3,8 +3,10 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using Microsoft.Data.SqlClient;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
+using System;
 using System.Threading.Tasks;
 using Xeptions;
 
@@ -24,6 +26,23 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             {
                 throw CreateAndLogValidationException(nullLanguageException);
             }
+            catch (SqlException sqlException)
+            {
+                var failedLanguageStorageException =
+                    new FailedLanguageStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedLanguageStorageException);
+            }
+        }
+
+        private LanguageDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var languageDependencyException = 
+                new LanguageDependencyException(exception);
+
+            this.loggingBroker.LogCritical(languageDependencyException);
+
+            return languageDependencyException;
         }
 
         private Xeption CreateAndLogValidationException(

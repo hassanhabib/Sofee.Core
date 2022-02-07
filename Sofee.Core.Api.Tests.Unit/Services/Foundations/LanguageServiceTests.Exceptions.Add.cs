@@ -29,9 +29,9 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             var expectedLanguageDependencyException =
                 new LanguageDependencyException(failedLanguageStorageException);
 
-            this.dateTimeBrokerMock.Setup(broker =>
-                broker.GetCurrentDateTimeOffset())
-                    .Throws(sqlException);
+            this.storageBrokerMock.Setup(broker =>
+                broker.InsertLanguageAsync(someLanguage))
+                    .ThrowsAsync(sqlException);
 
             // when
             ValueTask<Language> addLanguageTask =
@@ -41,8 +41,8 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             await Assert.ThrowsAsync<LanguageDependencyException>(() =>
                 addLanguageTask.AsTask());
 
-            this.dateTimeBrokerMock.Verify(broker =>
-                broker.GetCurrentDateTimeOffset(),
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertLanguageAsync(It.IsAny<Language>()),
                     Times.Once);
 
             this.loggingBrokerMock.Verify(broker =>
@@ -50,13 +50,13 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                     expectedLanguageDependencyException))),
                     Times.Once);
 
-            this.storageBrokerMock.Verify(broker =>
-                broker.InsertLanguageAsync(It.IsAny<Language>()),
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
                     Times.Never);
 
-            this.dateTimeBrokerMock.VerifyNoOtherCalls();
-            this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
