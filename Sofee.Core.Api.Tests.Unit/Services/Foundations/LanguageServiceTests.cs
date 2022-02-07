@@ -52,9 +52,9 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
 
             filler.Setup()
                 .OnProperty(language => language.CreatedDate).Use(GetRandomDateTime())
-                .OnProperty(language => language.UpdatedDate).IgnoreIt()
+                .OnProperty(language => language.UpdatedDate).Use(GetRandomDateTime())
                 .OnProperty(language => language.CreatedBy).Use(createdById)
-                .OnProperty(language => language.UpdatedBy).IgnoreIt();
+                .OnProperty(language => language.UpdatedBy).Use(createdById);
 
             return filler;
         }
