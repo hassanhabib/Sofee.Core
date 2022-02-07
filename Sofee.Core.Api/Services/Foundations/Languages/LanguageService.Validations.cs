@@ -4,6 +4,7 @@
 // -------------------------------------------------------
 
 using System;
+using Microsoft.Extensions.Hosting;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
 
@@ -22,7 +23,13 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
                 (Rule: IsInvalid(language.CreatedDate), Parameter: nameof(Language.CreatedDate)),
                 (Rule: IsInvalid(language.CreatedBy), Parameter: nameof(Language.CreatedBy)),
                 (Rule: IsInvalid(language.UpdatedDate), Parameter: nameof(Language.UpdatedDate)),
-                (Rule: IsInvalid(language.UpdatedBy), Parameter: nameof(Language.UpdatedBy)));
+                (Rule: IsInvalid(language.UpdatedBy), Parameter: nameof(Language.UpdatedBy)),
+
+                (Rule: IsNotSame(
+                    firstDate: language.UpdatedDate,
+                    secondDate: language.CreatedDate,
+                    secondDateName: nameof(Language.CreatedDate)),
+                Parameter: nameof(Language.UpdatedDate)));
         }
 
         private static void ValidateLanguageIsNotNull(Language language)
@@ -50,6 +57,15 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             Condition = String.IsNullOrWhiteSpace(text),
             Message = "Text is required"
         };
+
+        private static dynamic IsNotSame(
+            DateTimeOffset firstDate,
+            DateTimeOffset secondDate,
+            string secondDateName) => new
+            {
+                Condition = firstDate != secondDate,
+                Message = $"Date is not the same as {secondDateName}"
+            };
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
