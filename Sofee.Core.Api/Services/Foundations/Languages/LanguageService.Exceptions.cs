@@ -5,6 +5,7 @@
 
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
 using System;
@@ -52,6 +53,13 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
                 throw CreateAndLogDependencyValidationException(invalidLanguageReferenceException);
             }
+            catch (DbUpdateException databaseUpdateException)
+            {
+                var failedStorageLanguageException =
+                    new FailedLanguageStorageException(databaseUpdateException);
+
+                throw CreateAndLogDependencyException(failedStorageLanguageException);
+            }
         }
 
         private LanguageDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
@@ -82,6 +90,16 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             this.loggingBroker.LogError(languageDependencyValidationException);
 
             return languageDependencyValidationException;
+        }
+
+        private LanguageDependencyException CreateAndLogDependencyException(Xeption exception)
+        {
+            var languageDependencyException =
+                new LanguageDependencyException(exception);
+
+            this.loggingBroker.LogError(languageDependencyException);
+
+            return languageDependencyException;
         }
     }
 }
