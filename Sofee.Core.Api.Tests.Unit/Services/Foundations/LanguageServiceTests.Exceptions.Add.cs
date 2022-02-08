@@ -107,5 +107,55 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async void ShouldThrowValidationExceptionOnAddIfReferenceErrorOccursAndLogItAsync()
+        {
+            // given 
+            DateTimeOffset randomDateTime = GetRandomDateTime();
+            Language someLanguage = CreateRandomLanguage(randomDateTime);
+            string randomMessage = GetRandomMessage();
+            string exceptionMessage = randomMessage;
+
+            var foreignKeyConstraintConflictException =
+                new ForeignKeyConstraintConflictException(exceptionMessage);
+
+            var invalidLangugageReferenceException =
+                new InvalidLangugageReferenceException(foreignKeyConstraintConflictException);
+
+            var expectedLanguageDependencyValidationException = 
+                new LanguageDependencyValidationException(invalidLangugageReferenceException);
+
+            this.dateTimeBrokerMock.Setup(broker => 
+                broker.GetCurrentDateTimeOffset())
+                    .Returns(randomDateTime);
+
+            // when
+            ValueTask<Language> addLanguageTask = 
+                this.languageService.AddLanguageAsync(someLanguage);
+
+            // then
+            await Assert.ThrowsAsync<LanguageDependencyValidationException>(() =>
+                addLanguageTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedLanguageDependencyValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker => 
+                broker.InsertLanguageAsync(someLanguage),
+                    Times.Never);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+
+        }
+
     }
 }
