@@ -7,6 +7,7 @@ using System;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
@@ -19,10 +20,10 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
         [Fact]
         public async Task ShouldThrowCriticalDependencyExceptionOnAddIfSqlErrorOccursAndLogItAsync()
         {
-           // given
-           DateTimeOffset randomDateTime = GetRandomDateTime();
-           Language someLanguage = CreateRandomLanguage(randomDateTime);
-           SqlException sqlException = GetSqlException();
+            // given
+            DateTimeOffset randomDateTime = GetRandomDateTime();
+            Language someLanguage = CreateRandomLanguage(randomDateTime);
+            SqlException sqlException = GetSqlException();
 
             var failedLanguageStorageException =
                 new FailedLanguageStorageException(sqlException);
@@ -72,7 +73,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             var duplicateKeyException =
                new DuplicateKeyException(randomMessage);
 
-            var alreadyExistsLanguageException = 
+            var alreadyExistsLanguageException =
                 new AlreadyExistsLanguageException(duplicateKeyException);
 
             var expectedLanguageDependencyValidationException =
@@ -87,7 +88,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 this.languageService.AddLanguageAsync(alreadyExistsLanguage);
 
             // then
-            await Assert.ThrowsAsync<LanguageDependencyValidationException>(() => 
+            await Assert.ThrowsAsync<LanguageDependencyValidationException>(() =>
                 addLanguageTask.AsTask());
 
             this.dateTimeBrokerMock.Verify(broker =>
@@ -123,15 +124,15 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             var invalidLangugageReferenceException =
                 new InvalidLanguageReferenceException(foreignKeyConstraintConflictException);
 
-            var expectedLanguageDependencyValidationException = 
+            var expectedLanguageDependencyValidationException =
                 new LanguageDependencyValidationException(invalidLangugageReferenceException);
 
-            this.dateTimeBrokerMock.Setup(broker => 
+            this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
                     .Throws(foreignKeyConstraintConflictException);
 
             // when
-            ValueTask<Language> addLanguageTask = 
+            ValueTask<Language> addLanguageTask =
                 this.languageService.AddLanguageAsync(someLanguage);
 
             // then
@@ -147,8 +148,54 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                     expectedLanguageDependencyValidationException))),
                         Times.Once);
 
-            this.storageBrokerMock.Verify(broker => 
+            this.storageBrokerMock.Verify(broker =>
                 broker.InsertLanguageAsync(someLanguage),
+                    Times.Never);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnAddIfDatabaseUpdateErrorOccursAndLogItAsync()
+        {
+            // given
+            DateTimeOffset randomDateTime = GetRandomDateTime();
+            Language someLanguage = CreateRandomLanguage(randomDateTime);
+
+            var databaseUpdateException =
+                new DbUpdateException();
+
+            var failedLanguageStorageException =
+                new FailedLanguageStorageException(databaseUpdateException);
+
+            var expectedLanguageDependencyException =
+                new LanguageDependencyException(failedLanguageStorageException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(databaseUpdateException);
+
+            // when 
+            ValueTask<Language> addLanguageTask =
+                this.languageService.AddLanguageAsync(someLanguage);
+
+            // then
+            await Assert.ThrowsAsync<LanguageDependencyException>(() =>
+                addLanguageTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedLanguageDependencyException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertLanguageAsync(It.IsAny<Language>()),
                     Times.Never);
 
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
