@@ -65,6 +65,9 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
         private static int GetRandomNegativeNumber() =>
             -1 * new IntRange(min: 2, max: 10).GetValue();
 
+        private static string GetRandomMessage() =>
+            new MnemonicString(wordCount: GetRandomNumber()).GetValue();
+
         private static Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
         {
             return actualException =>

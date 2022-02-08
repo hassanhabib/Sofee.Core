@@ -5,6 +5,7 @@
 
 using System;
 using System.Threading.Tasks;
+using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Moq;
 using Sofee.Core.Api.Models.Languages;
@@ -57,6 +58,54 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyValidationExceptionOnAddIfProfileAlreadyExsitsAndLogItAsync()
+        {
+            // given
+            DateTimeOffset randomDateTime = GetRandomDateTime();
+            Language randomLanguage = CreateRandomLanguage(randomDateTime);
+            Language alreadyExistsLanguage = randomLanguage;
+            string randomMessage = GetRandomMessage();
+
+            var duplicateKeyException =
+               new DuplicateKeyException(randomMessage);
+
+            var alreadyExistsLanguageException = 
+                new AlreadyExistsLanguageException(duplicateKeyException);
+
+            var expectedLanguageDependencyValidationException =
+                new LanguageDependencyException(alreadyExistsLanguageException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+              broker.GetCurrentDateTimeOffset())
+                  .Throws(duplicateKeyException);
+
+            // when
+            ValueTask<Language> addLanguageTask =
+                this.languageService.AddLanguageAsync(alreadyExistsLanguage);
+
+            // then
+            await Assert.ThrowsAsync<LanguageDependencyValidationException>(() => 
+                addLanguageTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertLanguageAsync(It.IsAny<Language>()),
+                    Times.Never);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedLanguageDependencyValidationException))),
+                        Times.Once);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
 }
