@@ -45,6 +45,13 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
                 throw CreateAndLogDependencyValidationException(alreadyExistsLanguageException);
             }
+            catch (ForeignKeyConstraintConflictException foreignKeyConstraintConflictException)
+            {
+                var invalidLanguageReferenceException =
+                    new InvalidLanguageReferenceException(foreignKeyConstraintConflictException);
+
+                throw CreateAndLogDependencyValidationException(invalidLanguageReferenceException);
+            }
         }
 
         private LanguageDependencyException CreateAndLogCriticalDependencyException(Xeption exception)

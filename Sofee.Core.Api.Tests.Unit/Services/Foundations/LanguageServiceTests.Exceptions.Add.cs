@@ -121,14 +121,14 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 new ForeignKeyConstraintConflictException(exceptionMessage);
 
             var invalidLangugageReferenceException =
-                new InvalidLangugageReferenceException(foreignKeyConstraintConflictException);
+                new InvalidLanguageReferenceException(foreignKeyConstraintConflictException);
 
             var expectedLanguageDependencyValidationException = 
                 new LanguageDependencyValidationException(invalidLangugageReferenceException);
 
             this.dateTimeBrokerMock.Setup(broker => 
                 broker.GetCurrentDateTimeOffset())
-                    .Returns(randomDateTime);
+                    .Throws(foreignKeyConstraintConflictException);
 
             // when
             ValueTask<Language> addLanguageTask = 
@@ -154,8 +154,6 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-
         }
-
     }
 }

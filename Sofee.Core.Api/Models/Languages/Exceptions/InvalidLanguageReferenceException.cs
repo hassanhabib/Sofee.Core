@@ -8,9 +8,9 @@ using Xeptions;
 
 namespace Sofee.Core.Api.Models.Languages.Exceptions
 {
-    public class InvalidLangugageReferenceException : Xeption
+    public class InvalidLanguageReferenceException : Xeption
     {
-        public InvalidLangugageReferenceException(Exception innerException)
+        public InvalidLanguageReferenceException(Exception innerException)
             : base(message: "Invalid language reference error occurred.", innerException)
         { }
     }
