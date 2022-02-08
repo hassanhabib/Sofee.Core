@@ -5,7 +5,6 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
 using Moq;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
@@ -218,7 +217,6 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
-
         }
     }
 }
