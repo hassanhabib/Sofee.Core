@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Moq;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
@@ -192,6 +193,50 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedLanguageDependencyException))),
+                        Times.Once);
+
+            this.storageBrokerMock.Verify(broker =>
+                broker.InsertLanguageAsync(It.IsAny<Language>()),
+                    Times.Never);
+
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnAddIfServiceErrorOccursAndLogItAsync()
+        {
+            // given 
+            DateTimeOffset randomDateTime = GetRandomDateTime();
+            Language someLanguage = CreateRandomLanguage(randomDateTime);
+            var serviceException = new Exception();
+
+            var failedLanguageServiceException =
+                new FailedLanguageServiceException(serviceException);
+
+            var expectedLanguageServiceException =
+                new LanguageServiceException(failedLanguageServiceException);
+
+            this.dateTimeBrokerMock.Setup(broker =>
+                broker.GetCurrentDateTimeOffset())
+                    .Throws(serviceException);
+
+            // when
+            ValueTask<Language> addLanguageTask =
+                this.languageService.AddLanguageAsync(someLanguage);
+
+            // then
+            await Assert.ThrowsAsync<LanguageServiceException>(() =>
+                addLanguageTask.AsTask());
+
+            this.dateTimeBrokerMock.Verify(broker =>
+                broker.GetCurrentDateTimeOffset(),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedLanguageServiceException))),
                         Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
