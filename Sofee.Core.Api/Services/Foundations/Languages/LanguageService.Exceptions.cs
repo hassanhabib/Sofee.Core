@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
@@ -37,6 +38,13 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             {
                 throw CreateAndLogValidationException(invalidLanguageException);
             }
+            catch (DuplicateKeyException duplicateKeyException)
+            {
+                var alreadyExistsLanguageException =
+                    new AlreadyExistsLanguageException(duplicateKeyException);
+
+                throw CreateAndLogDependencyValidationException(alreadyExistsLanguageException);
+            }
         }
 
         private LanguageDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
@@ -49,8 +57,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             return languageDependencyException;
         }
 
-        private Xeption CreateAndLogValidationException(
-            Xeption exception)
+        private LanguageValidationException CreateAndLogValidationException(Xeption exception)
         {
             var languageValidationException = 
                 new LanguageValidationException(exception);
@@ -58,6 +65,16 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             this.loggingBroker.LogError(languageValidationException);
 
             return languageValidationException;
+        }
+
+        private LanguageDependencyValidationException CreateAndLogDependencyValidationException(Xeption exception)
+        {
+            var languageDependencyValidationException =
+                new LanguageDependencyValidationException(exception);
+
+            this.loggingBroker.LogError(languageDependencyValidationException);
+
+            return languageDependencyValidationException;
         }
     }
 }

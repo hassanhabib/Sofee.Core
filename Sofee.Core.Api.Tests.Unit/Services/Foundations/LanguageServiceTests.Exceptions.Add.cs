@@ -76,7 +76,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
                 new AlreadyExistsLanguageException(duplicateKeyException);
 
             var expectedLanguageDependencyValidationException =
-                new LanguageDependencyException(alreadyExistsLanguageException);
+                new LanguageDependencyValidationException(alreadyExistsLanguageException);
 
             this.dateTimeBrokerMock.Setup(broker =>
               broker.GetCurrentDateTimeOffset())
