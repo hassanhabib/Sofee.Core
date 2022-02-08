@@ -60,6 +60,23 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
                 throw CreateAndLogDependencyException(failedStorageLanguageException);
             }
+            catch(Exception exception)
+            {
+                var failedLanguageServiceException =
+                    new FailedLanguageServiceException(exception);
+
+                throw CreateAndLogServiceException(failedLanguageServiceException);
+            }
+        }
+
+        private LanguageServiceException CreateAndLogServiceException(Xeption exception)
+        {
+            var languageServiceException = 
+                new LanguageServiceException(exception);
+
+            this.loggingBroker.LogError(languageServiceException);
+
+            return languageServiceException;
         }
 
         private LanguageDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
