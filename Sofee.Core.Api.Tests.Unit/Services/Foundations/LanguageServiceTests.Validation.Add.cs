@@ -103,7 +103,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             await Assert.ThrowsAsync<LanguageValidationException>(() =>
                 addLanguageTask.AsTask());
 
-            this.loggingBrokerMock.Verify(broker => 
+            this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedLanguageValidationException))),
                         Times.Once);
@@ -123,12 +123,12 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             int randomNumber = GetRandomNumber();
             DateTimeOffset randomDateTime = GetRandomDateTime();
 
-            Language radomLanguage = 
+            Language radomLanguage =
                 CreateRandomLanguage(randomDateTime);
 
             Language invalidLanguage = radomLanguage;
 
-            invalidLanguage.UpdatedDate = 
+            invalidLanguage.UpdatedDate =
                 invalidLanguage.CreatedDate.AddDays(randomNumber);
 
             var invalidLanguageException =
@@ -174,12 +174,12 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
             DateTimeOffset invalidDateTime =
                 randomDateTime.AddMinutes(minutesBeforeOrAfter);
 
-            Language randomLanguage = 
+            Language randomLanguage =
                 CreateRandomLanguage(invalidDateTime);
 
             Language invalidLanguage = randomLanguage;
-            
-            var invalidLanguageException = 
+
+            var invalidLanguageException =
                 new InvalidLanguageException();
 
             invalidLanguageException.AddData(
