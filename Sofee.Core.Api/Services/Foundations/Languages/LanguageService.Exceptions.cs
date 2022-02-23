@@ -3,13 +3,13 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System;
+using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
-using System;
-using System.Threading.Tasks;
 using Xeptions;
 
 namespace Sofee.Core.Api.Services.Foundations.Languages
@@ -60,7 +60,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
                 throw CreateAndLogDependencyException(failedStorageLanguageException);
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 var failedLanguageServiceException =
                     new FailedLanguageServiceException(exception);
@@ -71,7 +71,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
         private LanguageServiceException CreateAndLogServiceException(Xeption exception)
         {
-            var languageServiceException = 
+            var languageServiceException =
                 new LanguageServiceException(exception);
 
             this.loggingBroker.LogError(languageServiceException);
@@ -81,7 +81,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
         private LanguageDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
         {
-            var languageDependencyException = 
+            var languageDependencyException =
                 new LanguageDependencyException(exception);
 
             this.loggingBroker.LogCritical(languageDependencyException);
@@ -91,7 +91,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
         private LanguageValidationException CreateAndLogValidationException(Xeption exception)
         {
-            var languageValidationException = 
+            var languageValidationException =
                 new LanguageValidationException(exception);
 
             this.loggingBroker.LogError(languageValidationException);
