@@ -13,7 +13,7 @@ using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
 using Xunit;
 
-namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
+namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
 {
     public partial class LanguageServiceTests
     {
