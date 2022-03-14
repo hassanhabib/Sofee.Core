@@ -17,7 +17,7 @@ using Tynamix.ObjectFiller;
 using Xeptions;
 using Xunit;
 
-namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
+namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
 {
     public partial class LanguageServiceTests
     {

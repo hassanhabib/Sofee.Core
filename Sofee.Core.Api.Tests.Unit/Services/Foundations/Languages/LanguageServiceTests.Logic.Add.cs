@@ -11,7 +11,7 @@ using Moq;
 using Sofee.Core.Api.Models.Languages;
 using Xunit;
 
-namespace Sofee.Core.Api.Tests.Unit.Services.Foundations
+namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
 {
     public partial class LanguageServiceTests
     {
