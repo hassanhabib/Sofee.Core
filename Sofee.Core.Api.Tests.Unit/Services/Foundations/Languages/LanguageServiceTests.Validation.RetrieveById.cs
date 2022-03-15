@@ -51,5 +51,44 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             this.storageBrokerMock.VerifyNoOtherCalls();
             this.dateTimeBrokerMock.VerifyNoOtherCalls(); 
         }
+
+        [Fact]
+        public async Task ShouldThrowNotFoundExceptionOnRetrieveByIdIfLanguageIsNotFoundLogItAsync()
+        {
+            // given
+            Guid randomLanguageId = Guid.NewGuid();
+            Language? noLanguage = null;
+
+            var notFoundLanguageException =
+                new NotFoundLanguageException(randomLanguageId);
+
+            var expectedLanguageValidationException =
+                new LanguageValidationException(notFoundLanguageException);
+
+            this.storageBrokerMock.Setup(broker =>
+                broker.SelectLanguageByIdAsync(It.IsAny<Guid>()))
+                    .ReturnsAsync(noLanguage);
+
+            // when
+            ValueTask<Language> retrieveLanguageByIdTask = 
+                this.languageService.RetrieveLanguageByIdAsync(randomLanguageId);
+
+            // then
+            await Assert.ThrowsAsync<LanguageValidationException>(() =>
+                retrieveLanguageByIdTask.AsTask());
+
+            this.storageBrokerMock.Verify(broker => 
+                broker.SelectLanguageByIdAsync(It.IsAny<Guid>()),
+                    Times.Once);
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedLanguageValidationException))),
+                        Times.Once);
+
+            this.storageBrokerMock.VerifyNoOtherCalls();
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.dateTimeBrokerMock.VerifyNoOtherCalls();
+        }
     }
 }
