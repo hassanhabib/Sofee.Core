@@ -84,6 +84,9 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             return timeDifference.Duration() > oneMinute;
         }
 
+        private static void ValidateLanguageId(Guid languageId) =>
+            Validate((Rule: IsInvalid(languageId), Parameter: nameof(Language.Id)));
+
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
             var invalidLanguageException =

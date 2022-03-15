@@ -36,9 +36,15 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             return await this.storageBroker.InsertLanguageAsync(language);
         });
 
-        public async ValueTask<Language> RetrieveLanguageByIdAsync(Guid languageId)
+        public ValueTask<Language> RetrieveLanguageByIdAsync(Guid languageId) =>
+            TryCatch(async () =>
         {
-            return await this.storageBroker.SelectLanguageByIdAsync(languageId);
-        }
+            ValidateLanguageId(languageId);
+
+            Language maybeLanguage = await this.storageBroker
+                .SelectLanguageByIdAsync(languageId);
+
+            return maybeLanguage;
+        });
     }
 }

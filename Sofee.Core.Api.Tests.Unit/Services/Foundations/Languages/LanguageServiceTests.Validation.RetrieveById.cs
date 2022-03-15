@@ -45,7 +45,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
 
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectLanguageByIdAsync(It.IsAny<Guid>()),
-                Times.Once);
+                Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
