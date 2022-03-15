@@ -19,10 +19,9 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
         public async Task ShouldRetrieveLanguageByIdAsync()
         {
             // given
-            Guid randomLanguageId = Guid.NewGuid();
-            Guid inputLanguageId = randomLanguageId;
             DateTimeOffset randomDateTime = GetRandomDateTime();
             Language randomLanguage = CreateRandomLanguage(randomDateTime);
+            Guid inputLanguageId = randomLanguage.Id;
             Language storageLanguage = randomLanguage;
             Language expectedLanguage = storageLanguage.DeepClone();
 
@@ -41,8 +40,8 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
                 broker.SelectLanguageByIdAsync(inputLanguageId),
                     Times.Once);
 
+            this.storageBrokerMock.VerifyNoOtherCalls();            
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
-            this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }
