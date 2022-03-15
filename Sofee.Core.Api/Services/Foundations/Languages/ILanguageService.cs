@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Sofee.Core.Api.Models.Languages;
 
@@ -11,5 +12,6 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
     public interface ILanguageService
     {
         ValueTask<Language> AddLanguageAsync(Language language);
+        ValueTask<Language> RetrieveLanguageByIdAsync(Guid languageId);
     }
 }

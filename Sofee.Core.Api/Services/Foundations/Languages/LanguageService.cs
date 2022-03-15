@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Sofee.Core.Api.Brokers.DateTimes;
 using Sofee.Core.Api.Brokers.Loggings;
@@ -34,5 +35,10 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
 
             return await this.storageBroker.InsertLanguageAsync(language);
         });
+
+        public ValueTask<Language> RetrieveLanguageByIdAsync(Guid languageId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
