@@ -57,7 +57,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
         }
 
         [Fact]
-        public async Task ShouldThrowServiceExceptionOnRetrieveByIdIfDatabaseUpdateErrorOccursAndLogItAsync()
+        public async Task ShouldThrowServiceExceptionOnRetrieveByIdIfServiceErrorOccursAndLogItAsync()
         {
             // given
             Guid someId = Guid.NewGuid();
