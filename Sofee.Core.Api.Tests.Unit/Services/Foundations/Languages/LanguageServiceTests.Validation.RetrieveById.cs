@@ -41,11 +41,11 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedLanguageValidationException))),
-                    Times.Once);
+                        Times.Once);
 
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectLanguageByIdAsync(It.IsAny<Guid>()),
-                Times.Never);
+                    Times.Never);
 
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.storageBrokerMock.VerifyNoOtherCalls();
