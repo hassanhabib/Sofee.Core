@@ -44,6 +44,8 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             Language maybeLanguage = await this.storageBroker
                 .SelectLanguageByIdAsync(languageId);
 
+            ValidateStorageLanguage(maybeLanguage, languageId);
+
             return maybeLanguage;
         });
     }

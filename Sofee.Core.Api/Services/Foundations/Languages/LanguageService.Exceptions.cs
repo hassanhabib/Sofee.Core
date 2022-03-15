@@ -39,6 +39,10 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             {
                 throw CreateAndLogValidationException(invalidLanguageException);
             }
+            catch (NotFoundLanguageException notFoundLanguageException)
+            {
+                throw CreateAndLogValidationException(notFoundLanguageException);
+            }
             catch (DuplicateKeyException duplicateKeyException)
             {
                 var alreadyExistsLanguageException =
