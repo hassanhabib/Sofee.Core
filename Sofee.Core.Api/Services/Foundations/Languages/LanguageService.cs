@@ -36,9 +36,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             return await this.storageBroker.InsertLanguageAsync(language);
         });
 
-        public IQueryable<Language> RetrieveAllLanguages()
-        {
-            throw new System.NotImplementedException();
-        }
+        public IQueryable<Language> RetrieveAllLanguages() =>
+            this.storageBroker.SelectAllLanguages();
     }
 }
