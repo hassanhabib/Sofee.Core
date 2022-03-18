@@ -4,6 +4,7 @@
 // -------------------------------------------------------
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EFxceptions.Models.Exceptions;
 using Microsoft.Data.SqlClient;
@@ -17,7 +18,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
     public partial class LanguageService
     {
         private delegate ValueTask<Language> ReturningLanguageFunction();
-
+        private delegate IQueryable<Language> ReturningLanguagesFunction();
         private async ValueTask<Language> TryCatch(ReturningLanguageFunction returningLanguageFunction)
         {
             try
@@ -68,6 +69,22 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
                 throw CreateAndLogServiceException(failedLanguageServiceException);
             }
         }
+
+        private IQueryable<Language> TryCatch(ReturningLanguagesFunction returningLanguagesFunction)
+        {
+            try
+            {
+                return returningLanguagesFunction();
+            }
+            catch (SqlException sqlException)
+            {
+                var failedStoragexception =
+                     new FailedLanguageStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedStoragexception);
+            }
+        }
+
 
         private LanguageServiceException CreateAndLogServiceException(Xeption exception)
         {

@@ -37,6 +37,6 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         });
 
         public IQueryable<Language> RetrieveAllLanguages() =>
-            this.storageBroker.SelectAllLanguages();
+            TryCatch(() => this.storageBroker.SelectAllLanguages());
     }
 }
