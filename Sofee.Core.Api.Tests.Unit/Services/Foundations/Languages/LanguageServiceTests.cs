@@ -51,10 +51,11 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             };
         }
 
-        private static IQueryable<Language> CreateRandomLanguages() =>
-                CreateLanguageFiller(dates: GetRandomDateTime())
-                    .Create(count: GetRandomNumber()).AsQueryable();
-
+        private static IQueryable<Language> CreateRandomLanguages()
+        {
+            return CreateLanguageFiller(dates: GetRandomDateTime())
+                .Create(count: GetRandomNumber()).AsQueryable();
+        }
         private static Language CreateRandomLanguage(DateTimeOffset dates) =>
                 CreateLanguageFiller(dates: dates).Create();
 

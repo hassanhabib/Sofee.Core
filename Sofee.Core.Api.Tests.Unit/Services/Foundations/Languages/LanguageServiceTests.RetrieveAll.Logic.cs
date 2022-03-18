@@ -1,12 +1,12 @@
-﻿using FluentAssertions;
-using Force.DeepCloner;
+﻿// -------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE FOR THE WORLD
+// -------------------------------------------------------
+
+using System.Linq;
+using FluentAssertions;
 using Moq;
 using Sofee.Core.Api.Models.Languages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
@@ -19,7 +19,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             // given
             IQueryable<Language> randomLanguages = CreateRandomLanguages();
             IQueryable<Language> storageLanguages = randomLanguages;
-            IQueryable<Language> expectedLanguages = randomLanguages.DeepClone();
+            IQueryable<Language> expectedLanguages = randomLanguages;
 
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectAllLanguages())
@@ -35,7 +35,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             this.storageBrokerMock.Verify(broker =>
                 broker.SelectAllLanguages(), Times.Once);
 
-            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.storageBrokerMock.VerifyNoOtherCalls();
             this.loggingBrokerMock.VerifyNoOtherCalls();
         }
     }

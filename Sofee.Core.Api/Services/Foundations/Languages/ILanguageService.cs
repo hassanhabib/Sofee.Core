@@ -13,6 +13,5 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
     {
         ValueTask<Language> AddLanguageAsync(Language language);
         IQueryable<Language> RetrieveAllLanguages();
-
     }
 }
