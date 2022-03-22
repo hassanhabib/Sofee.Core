@@ -29,7 +29,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         }
 
         public ValueTask<Language> AddLanguageAsync(Language language) =>
-            TryCatch(async () =>
+        TryCatch(async () =>
         {
             ValidateLanguageOnAdd(language);
 
@@ -37,7 +37,7 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         });
 
         public ValueTask<Language> RetrieveLanguageByIdAsync(Guid languageId) =>
-            TryCatch(async () =>
+        TryCatch(async () =>
         {
             ValidateLanguageId(languageId);
 
