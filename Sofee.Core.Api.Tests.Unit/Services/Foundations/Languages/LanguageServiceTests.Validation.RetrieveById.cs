@@ -57,7 +57,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
         {
             // given
             Guid randomLanguageId = Guid.NewGuid();
-            Language? noLanguage = null;
+            Language noLanguage = null;
 
             var notFoundLanguageException =
                 new NotFoundLanguageException(randomLanguageId);
