@@ -4,11 +4,8 @@
 // -------------------------------------------------------
 
 using System;
-using System.Linq;
-using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Moq;
-using Sofee.Core.Api.Models.Languages;
 using Sofee.Core.Api.Models.Languages.Exceptions;
 using Xunit;
 
@@ -53,16 +50,16 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             this.dateTimeBrokerMock.VerifyNoOtherCalls();
         }
 
-        [Fact] 
+        [Fact]
         public void ShouldThrowServiceExceptionOnRetrieveAllIfServiceErrorOccursAndLogIt()
         {
             //given
             var serviceException = new Exception();
 
-            var failedLanguageServiceException = 
+            var failedLanguageServiceException =
                 new FailedLanguageServiceException(serviceException);
 
-            var expectedLanguageServiceException = 
+            var expectedLanguageServiceException =
                 new LanguageServiceException(failedLanguageServiceException);
 
             this.storageBrokerMock.Setup(broker => broker.SelectAllLanguages())
@@ -78,7 +75,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             this.storageBrokerMock.Verify(broker => broker.SelectAllLanguages(), Times.Once);
 
             this.loggingBrokerMock.Verify(broker => broker.LogError(It.Is(SameExceptionAs(
-                expectedLanguageServiceException))), 
+                expectedLanguageServiceException))),
                     Times.Once);
 
             this.storageBrokerMock.VerifyNoOtherCalls();

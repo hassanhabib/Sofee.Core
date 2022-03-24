@@ -78,10 +78,17 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             }
             catch (SqlException sqlException)
             {
-                var failedStoragexception =
+                var failedLanguageStoragexception =
                      new FailedLanguageStorageException(sqlException);
 
-                throw CreateAndLogCriticalDependencyException(failedStoragexception);
+                throw CreateAndLogCriticalDependencyException(failedLanguageStoragexception);
+            }
+            catch (Exception exception)
+            {
+                var failedLanguageServiceException =
+                    new FailedLanguageServiceException(exception);
+
+                throw CreateAndLogServiceException(failedLanguageServiceException);
             }
         }
 
