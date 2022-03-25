@@ -44,7 +44,6 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
                 (Rule: IsInvalid(language.CreatedBy), Parameter: nameof(Language.CreatedBy)),
                 (Rule: IsInvalid(language.UpdatedDate), Parameter: nameof(Language.UpdatedDate)),
                 (Rule: IsInvalid(language.UpdatedBy), Parameter: nameof(Language.UpdatedBy)),
-                (Rule: IsNotRecent(language.CreatedDate), Parameter: nameof(Language.CreatedDate)),
 
                 (Rule: IsSame(
                     firstDate: language.UpdatedDate,
