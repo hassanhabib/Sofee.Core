@@ -32,6 +32,29 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
                 Parameter: nameof(Language.UpdatedDate)));
         }
 
+        private void ValidateLanguageOnModify(Language language)
+        {
+            ValidateLanguageIsNotNull(language);
+
+            Validate(
+                (Rule: IsInvalid(language.Id), Parameter: nameof(Language.Id)),
+                (Rule: IsInvalid(language.ISO), Parameter: nameof(Language.ISO)),
+                (Rule: IsInvalid(language.Text), Parameter: nameof(Language.Text)),
+                (Rule: IsInvalid(language.CreatedDate), Parameter: nameof(Language.CreatedDate)),
+                (Rule: IsInvalid(language.CreatedBy), Parameter: nameof(Language.CreatedBy)),
+                (Rule: IsInvalid(language.UpdatedDate), Parameter: nameof(Language.UpdatedDate)),
+                (Rule: IsInvalid(language.UpdatedBy), Parameter: nameof(Language.UpdatedBy)),
+                (Rule: IsNotRecent(language.CreatedDate), Parameter: nameof(Language.CreatedDate)),
+
+                (Rule: IsSame(
+                    firstDate: language.UpdatedDate,
+                    secondDate: language.CreatedDate,
+                    secondDateName: nameof(Language.CreatedDate)),
+                Parameter: nameof(Language.UpdatedDate)),
+
+            (Rule: IsNotRecent(language.UpdatedDate), Parameter: nameof(Language.UpdatedDate)));
+        }
+
         private static void ValidateLanguageIsNotNull(Language language)
         {
             if (language is null)
@@ -66,6 +89,14 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
                 Condition = firstDate != secondDate,
                 Message = $"Date is not the same as {secondDateName}"
             };
+        private static dynamic IsSame(
+            DateTimeOffset firstDate,
+            DateTimeOffset secondDate,
+            string secondDateName) => new
+            {
+                Condition = firstDate == secondDate,
+                Message = $"Date is the same as {secondDateName}"
+            };
 
         private dynamic IsNotRecent(DateTimeOffset date) => new
         {
@@ -82,6 +113,12 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
             TimeSpan oneMinute = TimeSpan.FromMinutes(1);
 
             return timeDifference.Duration() > oneMinute;
+        }
+
+        private static void ValidateStorageLanguage(Language language, Guid languageId)
+        {
+            if (language is null)
+                throw new NotFoundLanguageException(languageId);
         }
 
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)

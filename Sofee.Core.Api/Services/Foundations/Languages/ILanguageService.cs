@@ -11,5 +11,6 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
     public interface ILanguageService
     {
         ValueTask<Language> AddLanguageAsync(Language language);
+        ValueTask<Language> ModifyLanguageAsync(Language language);
     }
 }
