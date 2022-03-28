@@ -38,7 +38,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
                     .Returns(randomDate);
-            
+
             this.storageBrokerMock.Setup(broker =>
                 broker.SelectLanguageByIdAsync(
                     inputLanguageId))
@@ -76,5 +76,4 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
         }
     }
 }
-
 
