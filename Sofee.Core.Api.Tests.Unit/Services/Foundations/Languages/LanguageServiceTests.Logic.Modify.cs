@@ -1,4 +1,9 @@
-﻿using FluentAssertions;
+﻿// -------------------------------------------------------
+// Copyright (c) Coalition of the Good-Hearted Engineers
+// FREE TO USE FOR THE WORLD
+// -------------------------------------------------------
+
+using FluentAssertions;
 using Force.DeepCloner;
 using Moq;
 using Sofee.Core.Api.Models.Languages;
@@ -14,29 +19,21 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
         public async Task ShouldModifyLanguageAsync()
         {
             // given
-            DateTimeOffset randomDate =
-                GetRandomDateTimeOffset();
+            DateTimeOffset randomDate = GetRandomDateTimeOffset();
 
-            Language randomLanguage =
-                CreateRandomLanguage(randomDate);
+            Language randomLanguage = CreateRandomLanguage(randomDate);
 
-            Language inputLanguage =
-                randomLanguage;
+            Language inputLanguage = randomLanguage;
 
-            inputLanguage.UpdatedDate =
-                randomDate.AddMinutes(1);
+            inputLanguage.UpdatedDate = randomDate.AddMinutes(GetRandomNumber());
 
-            Language storageLanguage =
-                inputLanguage;
+            Language storageLanguage = inputLanguage;
 
-            Language updatedLanguage =
-                inputLanguage;
+            Language updatedLanguage = inputLanguage;
 
-            Language expectedLanguage =
-                updatedLanguage.DeepClone();
+            Language expectedLanguage = updatedLanguage.DeepClone();
 
-            Guid inputLanguageId =
-                inputLanguage.Id;
+            Guid inputLanguageId = inputLanguage.Id;
 
             this.dateTimeBrokerMock.Setup(broker =>
                 broker.GetCurrentDateTimeOffset())
@@ -54,8 +51,8 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Languages
 
             // when
             Language actualLanguage =
-                await this.languageService.
-                    ModifyLanguageAsync(inputLanguage);
+                await this.languageService
+                    .ModifyLanguageAsync(inputLanguage);
 
             // then
             actualLanguage.Should().BeEquivalentTo(
