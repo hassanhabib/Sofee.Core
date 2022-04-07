@@ -26,5 +26,4 @@ namespace Sofee.Core.Api.Brokers.Storages
             return countryEntityEntry.Entity;
         }
     }
-
 }
