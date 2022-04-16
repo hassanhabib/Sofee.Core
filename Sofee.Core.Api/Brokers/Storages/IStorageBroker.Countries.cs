@@ -4,6 +4,7 @@
 // -------------------------------------------------------
 
 using Sofee.Core.Api.Models.Countries;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sofee.Core.Api.Brokers.Storages
@@ -11,5 +12,6 @@ namespace Sofee.Core.Api.Brokers.Storages
     public partial interface IStorageBroker
     {
         ValueTask<Country> InsertCounrtyAsync(Country country);
+        IQueryable<Country> SelectAllCountries();
     }
 }
