@@ -31,6 +31,7 @@ namespace Sofee.Core.Api.Brokers.Storages
         {
             using var broker =
                 new StorageBroker(this.configuration);
+
             return broker.Countries;
         }
     }
