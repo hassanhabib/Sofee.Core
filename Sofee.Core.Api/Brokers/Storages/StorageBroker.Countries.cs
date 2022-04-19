@@ -6,6 +6,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Sofee.Core.Api.Models.Countries;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sofee.Core.Api.Brokers.Storages
@@ -14,7 +15,7 @@ namespace Sofee.Core.Api.Brokers.Storages
     {
         public DbSet<Country> Countries { get; set; }
         
-        public async ValueTask<Country> InsertCounrtyAsync(Country country)
+        public async ValueTask<Country> InsertCountryAsync(Country country)
         {
             using var broker = new StorageBroker(this.configuration);
 
@@ -24,6 +25,14 @@ namespace Sofee.Core.Api.Brokers.Storages
             await broker.SaveChangesAsync();
 
             return countryEntityEntry.Entity;
+        }
+
+        public IQueryable<Country> SelectAllCountries()
+        {
+            using var broker =
+                new StorageBroker(this.configuration);
+
+            return broker.Countries;
         }
     }
 }
