@@ -11,7 +11,7 @@ namespace Sofee.Core.Api.Brokers.Storages
 {
     public partial interface IStorageBroker
     {
-        ValueTask<Country> InsertCounrtyAsync(Country country);
+        ValueTask<Country> InsertCountryAsync(Country country);
         IQueryable<Country> SelectAllCountries();
     }
 }
