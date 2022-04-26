@@ -26,7 +26,6 @@ namespace Sofee.Core.Api.Brokers.Storages
             await broker.SaveChangesAsync();
 
             return countryEntityEntry.Entity;
-
         }
 
         public IQueryable<Country> SelectAllCountries()
@@ -35,7 +34,6 @@ namespace Sofee.Core.Api.Brokers.Storages
                 new StorageBroker(this.configuration);
 
             return broker.Countries;
-
         }
 
         public async ValueTask<Country> SelectCountryByIdAsync(Guid countryId)
@@ -44,7 +42,6 @@ namespace Sofee.Core.Api.Brokers.Storages
                 new StorageBroker(this.configuration);
 
             return await broker.Countries.FindAsync(countryId);
-
         }
     }
 }
