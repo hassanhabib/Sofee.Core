@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using System;
 using System.Threading.Tasks;
 using Sofee.Core.Api.Brokers.DateTimes;
 using Sofee.Core.Api.Brokers.Loggings;
@@ -28,11 +29,24 @@ namespace Sofee.Core.Api.Services.Foundations.Languages
         }
 
         public ValueTask<Language> AddLanguageAsync(Language language) =>
-            TryCatch(async () =>
+        TryCatch(async () =>
         {
             ValidateLanguageOnAdd(language);
 
             return await this.storageBroker.InsertLanguageAsync(language);
+        });
+
+        public ValueTask<Language> RetrieveLanguageByIdAsync(Guid languageId) =>
+        TryCatch(async () =>
+        {
+            ValidateLanguageId(languageId);
+
+            Language maybeLanguage = await this.storageBroker
+                .SelectLanguageByIdAsync(languageId);
+
+            ValidateStorageLanguage(maybeLanguage, languageId);
+
+            return maybeLanguage;
         });
     }
 }
