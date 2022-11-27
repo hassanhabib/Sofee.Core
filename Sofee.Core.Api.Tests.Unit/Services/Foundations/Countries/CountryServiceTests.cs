@@ -9,7 +9,9 @@ using Sofee.Core.Api.Brokers.Storages;
 using Sofee.Core.Api.Models.Countries;
 using Sofee.Core.Api.Services.Foundations.Countries;
 using System;
+using System.Linq.Expressions;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Countries
 {
@@ -27,6 +29,14 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Countries
             this.countryService = new CountryService(
                 storageBroker: this.storageBrokerMock.Object,
                 loggingBroker: this.loggingBrokerMock.Object);
+        }
+
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
+        {
+            return actualException =>
+                actualException.Message == expectedException.Message
+                && actualException.InnerException.Message == expectedException.InnerException.Message
+                && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
         }
 
         private static DateTimeOffset GetRandomDateTime() =>
