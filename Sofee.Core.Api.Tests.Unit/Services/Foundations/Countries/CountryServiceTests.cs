@@ -31,13 +31,8 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Countries
                 loggingBroker: this.loggingBrokerMock.Object);
         }
 
-        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)
-        {
-            return actualException =>
-                actualException.Message == expectedException.Message
-                && actualException.InnerException.Message == expectedException.InnerException.Message
-                && (actualException.InnerException as Xeption).DataEquals(expectedException.InnerException.Data);
-        }
+        private Expression<Func<Xeption, bool>> SameExceptionAs(Xeption expectedException)=>
+            actualException => actualException.SameExceptionAs(expectedException);
 
         private static DateTimeOffset GetRandomDateTime() =>
            new DateTimeRange(earliestDate: DateTime.UnixEpoch).GetValue();
