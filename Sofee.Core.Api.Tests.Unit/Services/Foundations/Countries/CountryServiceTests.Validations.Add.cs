@@ -19,7 +19,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Countries
         {
             //given
             Country noCountry = null;
-            var nullCountryExceptions = new NullCountryExceptions();
+            var nullCountryExceptions = new Xeption();
 
             var expectedCountryValidationException =
                 new CountryValidationException(nullCountryExceptions);

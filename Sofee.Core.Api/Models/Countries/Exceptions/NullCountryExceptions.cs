@@ -7,9 +7,9 @@ using Xeptions;
 
 namespace Sofee.Core.Api.Models.Countries.Exceptions
 {
-    public class NullCountryExceptions : Xeption
+    public class Xeption : Xeptions.Xeption
     {
-        public NullCountryExceptions()
+        public Xeption()
        : base(message: "Country is null.")
         { }
     }

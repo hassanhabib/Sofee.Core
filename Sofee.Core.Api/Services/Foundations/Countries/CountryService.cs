@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Sofee.Core.Api.Services.Foundations.Countries
 {
-    public class CountryService : ICountryService
+    public partial class CountryService : ICountryService
     {
         private readonly IStorageBroker storageBroker;
         private readonly ILoggingBroker loggingBroker;
@@ -21,7 +21,12 @@ namespace Sofee.Core.Api.Services.Foundations.Countries
             this.loggingBroker = loggingBroker;
         }
 
-        public async ValueTask<Country> AddCountryAsync(Country country) =>
-             await this.storageBroker.InsertCountryAsync(country);
+        public ValueTask<Country> AddCountryAsync(Country country) =>
+            TryCatch(async () =>
+            {
+            ValidateCountryNotNull(country);
+
+            return await this.storageBroker.InsertCountryAsync(country);
+            });
     }
 }
