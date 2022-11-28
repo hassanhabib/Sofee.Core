@@ -14,7 +14,7 @@ namespace Sofee.Core.Api.Services.Foundations.Countries
         {
             if (country is null)
             {   
-                throw new Xeption();
+                throw new NullCountryException();
             }
         }
     }

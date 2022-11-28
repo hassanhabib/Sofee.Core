@@ -6,6 +6,7 @@
 using Sofee.Core.Api.Models.Countries;
 using Sofee.Core.Api.Models.Countries.Exceptions;
 using System.Threading.Tasks;
+using Xeptions;
 
 namespace Sofee.Core.Api.Services.Foundations.Countries
 {
@@ -19,7 +20,7 @@ namespace Sofee.Core.Api.Services.Foundations.Countries
             {
                 return await returningCountryFunction();
             }
-            catch (Xeption nullCountryException)
+            catch (NullCountryException nullCountryException)
             {
                 throw CretateAndLogValidationException(nullCountryException);
             }

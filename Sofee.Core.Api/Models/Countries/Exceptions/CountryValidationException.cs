@@ -7,9 +7,9 @@ using Xeptions;
 
 namespace Sofee.Core.Api.Models.Countries.Exceptions
 {
-    public class CountryValidationException : Xeptions.Xeption
+    public class CountryValidationException :Xeption
     {
-        public CountryValidationException(Xeptions.Xeption innerException)
+        public CountryValidationException(Xeption innerException)
         : base(message: "Country validation error occured. Please, try again.",innerException)
         { }
     }
