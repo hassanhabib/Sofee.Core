@@ -70,7 +70,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Countries
 
             invalidCountryException.AddData(
                 key: nameof(Country.Iso3),
-                values: "text is required");
+                values: "Text is required");
 
             invalidCountryException.AddData(
                 key: nameof(Country.Name),
@@ -93,7 +93,7 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Countries
                 values: "Id is required");
 
             var expectedCountryValidationException =
-                new LanguageValidationException(invalidCountryException);
+                new CountryValidationException(invalidCountryException);
 
             //when
             ValueTask<Country> addCountryTask =

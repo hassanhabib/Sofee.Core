@@ -24,9 +24,9 @@ namespace Sofee.Core.Api.Services.Foundations.Countries
         public ValueTask<Country> AddCountryAsync(Country country) =>
             TryCatch(async () =>
             {
-            ValidateCountryNotNull(country);
+                ValidateCountry(country);
 
-            return await this.storageBroker.InsertCountryAsync(country);
+                return await this.storageBroker.InsertCountryAsync(country);
             });
     }
 }

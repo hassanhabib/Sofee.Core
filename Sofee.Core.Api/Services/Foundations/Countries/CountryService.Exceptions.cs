@@ -24,6 +24,10 @@ namespace Sofee.Core.Api.Services.Foundations.Countries
             {
                 throw CretateAndLogValidationException(nullCountryException);
             }
+            catch (InvalidCountryException invalidCountryException)
+            {
+                throw CretateAndLogValidationException(invalidCountryException);
+            }
         }
 
         private CountryValidationException CretateAndLogValidationException(Xeption exception)
