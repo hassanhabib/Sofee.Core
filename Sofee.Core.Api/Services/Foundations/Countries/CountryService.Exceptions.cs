@@ -3,8 +3,10 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using Microsoft.Data.SqlClient;
 using Sofee.Core.Api.Models.Countries;
 using Sofee.Core.Api.Models.Countries.Exceptions;
+using System;
 using System.Threading.Tasks;
 using Xeptions;
 
@@ -28,6 +30,12 @@ namespace Sofee.Core.Api.Services.Foundations.Countries
             {
                 throw CretateAndLogValidationException(invalidCountryException);
             }
+            catch (SqlException sqlException)
+            {
+                var failedCountryStorageException = new FailedCountryStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedCountryStorageException);
+            }
         }
 
         private CountryValidationException CretateAndLogValidationException(Xeption exception)
@@ -36,6 +44,14 @@ namespace Sofee.Core.Api.Services.Foundations.Countries
             this.loggingBroker.LogError(countryValidationException);
 
             return countryValidationException;
+        }
+
+        private CountryDependencyException CreateAndLogCriticalDependencyException(Xeption exception)
+        {
+            var countryDependencyException = new CountryDependencyException(exception);
+            this.loggingBroker.LogCritical(countryDependencyException);
+
+            return countryDependencyException;
         }
     }
 }
