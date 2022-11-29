@@ -4,6 +4,7 @@
 // -------------------------------------------------------
 
 using FluentAssertions;
+using Microsoft.Data.SqlClient;
 using Moq;
 using Sofee.Core.Api.Models.Countries;
 using Sofee.Core.Api.Models.Countries.Exceptions;

@@ -3,6 +3,7 @@
 // FREE TO USE FOR THE WORLD
 // -------------------------------------------------------
 
+using Microsoft.Data.SqlClient;
 using Moq;
 using Sofee.Core.Api.Brokers.Loggings;
 using Sofee.Core.Api.Brokers.Storages;
@@ -10,6 +11,7 @@ using Sofee.Core.Api.Models.Countries;
 using Sofee.Core.Api.Services.Foundations.Countries;
 using System;
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
 using Tynamix.ObjectFiller;
 using Xeptions;
 
@@ -36,6 +38,9 @@ namespace Sofee.Core.Api.Tests.Unit.Services.Foundations.Countries
 
         private static DateTimeOffset GetRandomDateTime() =>
            new DateTimeRange(earliestDate: DateTime.UnixEpoch).GetValue();
+
+        private static SqlException CreateSqlException() =>
+            (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
         private static Country CreateRandomCountry() =>
            CreateCountryFiller().Create();
