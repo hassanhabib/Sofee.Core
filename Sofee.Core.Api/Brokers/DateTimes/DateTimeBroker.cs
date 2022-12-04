@@ -9,7 +9,9 @@ namespace Sofee.Core.Api.Brokers.DateTimes
 {
     public class DateTimeBroker : IDateTimeBroker
     {
-        public DateTimeOffset GetCurrentDateTimeOffset() =>
-            DateTimeOffset.UtcNow;
+        public DateTimeOffset GetCurrentDateTimeOffset()
+        {
+            return DateTimeOffset.UtcNow;
+        }
     }
 }

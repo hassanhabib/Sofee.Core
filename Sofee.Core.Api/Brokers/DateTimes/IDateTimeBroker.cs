@@ -11,4 +11,5 @@ namespace Sofee.Core.Api.Brokers.DateTimes
     {
         DateTimeOffset GetCurrentDateTimeOffset();
     }
+
 }
