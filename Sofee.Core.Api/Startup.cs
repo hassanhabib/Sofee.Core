@@ -12,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using Sofee.Core.Api.Brokers.DateTimes;
 using Sofee.Core.Api.Brokers.Loggings;
 using Sofee.Core.Api.Brokers.Storages;
+using Sofee.Core.Api.Services.Foundations.Languages;
 
 namespace Sofee.Core.Api
 {
@@ -27,6 +28,7 @@ namespace Sofee.Core.Api
             services.AddControllers();
             services.AddDbContext<StorageBroker>();
             AddBrokers(services);
+            AddServices(services);
 
             services.AddSwaggerGen(options =>
             {
@@ -70,5 +72,8 @@ namespace Sofee.Core.Api
             services.AddTransient<ILoggingBroker, LoggingBroker>();
             services.AddTransient<IDateTimeBroker, DateTimeBroker>();
         }
+
+        private static void AddServices(IServiceCollection services) =>
+            services.AddTransient<ILanguageService, LanguageService>();
     }
 }
