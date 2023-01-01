@@ -22,7 +22,7 @@ namespace Sofee.Core.Api.Controllers
         this.languageService = languageService;
 
         [HttpPost]
-        public async ValueTask<ActionResult<Language>> LanguageLanguageAsync(Language language)
+        public async ValueTask<ActionResult<Language>> PostLanguageAsync(Language language)
         {
             try
             {
